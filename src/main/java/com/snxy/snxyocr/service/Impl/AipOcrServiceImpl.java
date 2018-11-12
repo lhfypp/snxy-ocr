@@ -3,6 +3,7 @@ package com.snxy.snxyocr.service.Impl;
 import com.alibaba.fastjson.JSON;
 import com.baidu.aip.ocr.AipOcr;
 import com.snxy.common.exception.BizException;
+import com.snxy.common.util.StringUtil;
 import com.snxy.snxyocr.service.AipOcrService;
 import com.snxy.snxyocr.service.vo.BusinessLicenseVO;
 import com.snxy.snxyocr.service.vo.DriverLicenseVO;
@@ -314,8 +315,21 @@ public class AipOcrServiceImpl implements AipOcrService {
         businessLicenseVO.setEstablishedDate(map2.get("words").toString());
         Map<String,Object> map3 = map.get("注册资本");
         businessLicenseVO.setRegisteredCapital(map3.get("words").toString());
-        Map<String,Object> map4 = map.get("证件编号");
-        businessLicenseVO.setSocialCreditCode(map4.get("words").toString());
+
+        if(!map.get("证件编号").get("words").toString().equals("无")){
+            Map<String,Object> map4 = map.get("证件编号");
+            businessLicenseVO.setSocialCreditCode(map4.get("words").toString());
+
+        }else {
+            Map<String,Object> map4 = map.get("社会信用代码");
+            businessLicenseVO.setSocialCreditCode(map4.get("words").toString());
+
+            log.info("社会信用代码:[{}]",map4.get("words").toString());
+        }
+        if(!StringUtil.isSocialCreditCode(businessLicenseVO.getSocialCreditCode())){
+            throw new BizException("上传图片不正确");
+        }
+
         Map<String,Object> map5 = map.get("地址");
         businessLicenseVO.setAddress(map5.get("words").toString());
         Map<String,Object> map6 = map.get("单位名称");
