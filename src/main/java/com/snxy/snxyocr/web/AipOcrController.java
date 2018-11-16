@@ -1,4 +1,4 @@
-package com.snxy.snxyocr.controller;
+package com.snxy.snxyocr.web;
 
 import com.snxy.common.response.ResultData;
 import com.snxy.snxyocr.service.AipOcrService;
@@ -6,7 +6,6 @@ import com.snxy.snxyocr.service.vo.BusinessLicenseVO;
 import com.snxy.snxyocr.service.vo.DriverLicenseVO;
 import com.snxy.snxyocr.service.vo.IdCardInfoVO;
 import com.snxy.snxyocr.service.vo.VehicleLicenseVO;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,5 +47,11 @@ public class AipOcrController {
     public ResultData businessLicense(MultipartFile corporateCertificationUrl) throws IOException {
         BusinessLicenseVO businessLicenseVO = aipOcrService.businessLicense(corporateCertificationUrl);
         return ResultData.success(businessLicenseVO);
+    }
+
+    @RequestMapping("/plateLicense")
+    public ResultData plateLicense(MultipartFile plateLicenseUrl) throws IOException {
+        String number = aipOcrService.plateLicense(plateLicenseUrl);
+        return ResultData.success(number);
     }
 }

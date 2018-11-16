@@ -10,6 +10,7 @@ import com.snxy.snxyocr.service.vo.DriverLicenseVO;
 import com.snxy.snxyocr.service.vo.IdCardInfoVO;
 import com.snxy.snxyocr.service.vo.VehicleLicenseVO;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -122,7 +124,7 @@ public class AipOcrServiceImpl implements AipOcrService {
 
         //掉接口获取json
         JSONObject jsonObject = aipOcr.idcard(bytes, idCardSide, options);
-
+        log.info("json:[{}]",jsonObject);
         IdCardInfoVO idCardInfoVO = IdCardInfoVO.builder().build();
         //解析json组成vo对象
         Map parse = (Map) JSON.parse(jsonObject.toString());
@@ -338,6 +340,37 @@ public class AipOcrServiceImpl implements AipOcrService {
         businessLicenseVO.setValidity(map7.get("words").toString());
         log.info("businessLicenseVO:[{}]",businessLicenseVO);
         return businessLicenseVO;
+    }
+
+    @Override
+    //车牌识别
+    public String plateLicense(MultipartFile plateLicenseUrl) throws IOException {
+        if(plateLicenseUrl == null){
+            throw new BizException("没有传入图片");
+        }
+        // 传入可选参数调用接口
+        HashMap<String, String> options = new HashMap<String, String>();
+        options.put("multi_detect", "true");
+
+        //把路径转成二进制数组
+        InputStream inputStream = plateLicenseUrl.getInputStream();
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int n = 0;
+        while (-1 != (n = inputStream.read(buffer))) {
+            output.write(buffer, 0, n);
+        }
+        byte[] bytes = output.toByteArray();
+        //调用客户端获取json
+        JSONObject jsonObject = aipOcr.plateLicense(bytes, options);
+
+        //json解析拆分信息
+        Map<String,Object> parse = (Map) JSON.parse(jsonObject.toString());
+        List<Map> list= (List<Map>) parse.get("words_result");
+        String number = list.get(0).get("number").toString();
+        log.info("车牌：[{}]",number);
+
+        return number;
     }
 
 

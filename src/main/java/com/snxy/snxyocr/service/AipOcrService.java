@@ -20,4 +20,6 @@ public interface AipOcrService {
     VehicleLicenseVO vehicleLicense(MultipartFile vehicleDrivingLicenseFrontUrl) throws IOException;
 
     BusinessLicenseVO businessLicense(MultipartFile corporateCertificationUrl) throws IOException;
+
+    String plateLicense(MultipartFile plateLicenseUrl) throws IOException;
 }
