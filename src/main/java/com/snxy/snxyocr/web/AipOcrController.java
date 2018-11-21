@@ -20,38 +20,38 @@ public class AipOcrController {
     AipOcrService aipOcrService;
 
     @RequestMapping("/idcardFront")
-    public ResultData idcardFront(MultipartFile idFrontUrl) throws IOException {
-        IdCardInfoVO idCardInfoVO = aipOcrService.idcardFront(idFrontUrl);
+    public ResultData idcardFront(MultipartFile file) throws IOException {
+        IdCardInfoVO idCardInfoVO = aipOcrService.idcardFront(file);
         return ResultData.success(idCardInfoVO);
     }
 
     @RequestMapping("/idcardBack")
-    public ResultData idcardBack(MultipartFile idBackUrl) throws IOException {
-        IdCardInfoVO idCardInfoVO = aipOcrService.idcardBack(idBackUrl);
+    public ResultData idcardBack(MultipartFile file) throws IOException {
+        IdCardInfoVO idCardInfoVO = aipOcrService.idcardBack(file);
         return ResultData.success(idCardInfoVO);
     }
 
     @RequestMapping("/drivingLicenseFront")
-    public ResultData drivingLicenseFront(MultipartFile drivingLicenseFrontUrl) throws IOException {
-        DriverLicenseVO driverLicenseVO = aipOcrService.drivingLicenseFront(drivingLicenseFrontUrl);
+    public ResultData drivingLicenseFront(MultipartFile file) throws IOException {
+        DriverLicenseVO driverLicenseVO = aipOcrService.drivingLicenseFront(file);
         return ResultData.success(driverLicenseVO);
     }
 
     @RequestMapping("/vehicleLicense")
-    public ResultData vehicleLicense(MultipartFile vehicleDrivingLicenseFrontUrl) throws IOException {
-        VehicleLicenseVO vehicleLicenseVO = aipOcrService.vehicleLicense(vehicleDrivingLicenseFrontUrl);
+    public ResultData vehicleLicense(MultipartFile file) throws IOException {
+        VehicleLicenseVO vehicleLicenseVO = aipOcrService.vehicleLicense(file);
         return ResultData.success(vehicleLicenseVO);
     }
 
     @RequestMapping("/businessLicense")
-    public ResultData businessLicense(MultipartFile corporateCertificationUrl) throws IOException {
-        BusinessLicenseVO businessLicenseVO = aipOcrService.businessLicense(corporateCertificationUrl);
+    public ResultData businessLicense(MultipartFile file) throws IOException {
+        BusinessLicenseVO businessLicenseVO = aipOcrService.businessLicense(file);
         return ResultData.success(businessLicenseVO);
     }
 
     @RequestMapping("/plateLicense")
-    public ResultData plateLicense(MultipartFile plateLicenseUrl) throws IOException {
-        String number = aipOcrService.plateLicense(plateLicenseUrl);
+    public ResultData plateLicense(MultipartFile file) throws IOException {
+        String number = aipOcrService.plateLicense(file);
         return ResultData.success(number);
     }
 }

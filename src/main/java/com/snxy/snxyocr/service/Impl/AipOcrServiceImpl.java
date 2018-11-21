@@ -363,7 +363,7 @@ public class AipOcrServiceImpl implements AipOcrService {
         byte[] bytes = output.toByteArray();
         //调用客户端获取json
         JSONObject jsonObject = aipOcr.plateLicense(bytes, options);
-
+        log.info("jsonObject:[{}]",jsonObject);
         //json解析拆分信息
         Map<String,Object> parse = (Map) JSON.parse(jsonObject.toString());
         List<Map> list= (List<Map>) parse.get("words_result");
